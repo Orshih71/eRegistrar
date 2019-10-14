@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/semantic-ui/semantic.css">
+    <script src="/semantic-ui/semantic.js"></script>
+    <title>eRegistrar - Search Student</title>
+</head>
+<body>
+<div class="ui container">
+    <div class="ui large secondary pointing menu">
+        <a class="toc item">
+            <i class="sidebar icon"></i>
+        </a>
+        <a class="item" href="/eRegistrar/home">Home</a>
+        <a class="item" href="/eRegistrar/student/list">Students</a>
+        <a class="active item" href="/eRegistrar/student/search">Search</a>
+    </div>
+
+    <div class="ui container">
+        <div class="ui text container">
+            <h1 class="ui blue header">
+                Search Students
+            </h1>
+            <form class="ui form" id="newStudentForm" method="get" action="/eRegistrar/student/search">
+                <fieldset>
+                    <div class="ui field" style="float:left;">
+                        <label for="studentNumber">Student Number</label>
+                        <!--/*@thymesVar id="searchKey" type="String"*/-->
+                        <input id="studentNumber" name="studentNumber" type="text" th:value="${searchKey}">
+                    </div>
+                    <div class="ui fluid" style="float:right;">
+                        <button id="btnSubmit" type="submit" class="ui success button">Search</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <table class="ui celled table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Student Number</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Middle Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">CGPA</th>
+                <th scope="col">Enrollment Date</th>
+                <th scope="col">isInternational</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--/*@thymesVar id="students" type="java.util.List<cs425.lab8.eregistrar.model.Student>"*/-->
+            <tr th:each="std,iterStat : ${students}">
+                <th scope="row" th:text="${iterStat.count}"></th>
+                <td th:text="${std.studentNumber}"></td>
+                <td th:text="${std.firstName}"></td>
+                <td th:text="${std.middleName}"></td>
+                <td th:text="${std.lastName}"></td>
+                <td th:text="${std.cgpa}"></td>
+                <td th:text="${std.enrollmentDate}"></td>
+                <td th:text="${std.isInternational}==1?'Yes':'No'"></td>
+                <td><a th:href="@{'/eRegistrar/student/edit/{studentId}'(studentId=${std.studentId})}">Edit</a></td>
+                <td>
+                    <a onclick="return confirm('Are you sure you wish to delete this student?')"
+                       th:href="@{'/eRegistrar/student/delete/' + ${std.studentId}}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/semantic-ui/semantic.css">
+    <script src="/semantic-ui/semantic.js"></script>
+    <title>eRegistrar - Students</title>
+</head>
+<body>
+<div class="ui container">
+    <div class="ui large secondary pointing menu">
+        <a class="toc item">
+            <i class="sidebar icon"></i>
+        </a>
+        <a class="item" href="/eRegistrar/home">Home</a>
+        <a class="active item" href="/eRegistrar/student/list">Students</a>
+        <a class="item" href="/eRegistrar/student/search">Search</a>
+    </div>
+
+    <div class="ui container">
+        <div class="ui text container">
+            <h1 class="ui blue header" style="float: left">
+                Students in our University
+            </h1>
+            <a href="/eRegistrar/student/new" style="float: right">
+                <button class="ui green button">Add New Student</button>
+            </a>
+        </div>
+        <table class="ui celled table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Student Number</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Middle Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">CGPA</th>
+                <th scope="col">Enrollment Date</th>
+                <th scope="col">isInternational</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student,iterStat : ${students}">
+                <th scope="row" th:text="${iterStat.count}"></th>
+                <td th:text="${student.studentNumber}"></td>
+                <td th:text="${student.firstName}"></td>
+                <td th:text="${student.middleName}"></td>
+                <td th:text="${student.lastName}"></td>
+                <td th:text="${student.cgpa}"></td>
+                <td th:text="${student.enrollmentDate}"></td>
+                <td th:text="${student.isInternational}==1?'Yes':'No'"></td>
+                <td><a th:href="@{'/eRegistrar/student/edit/{studentId}'(studentId=${student.studentId})}">Edit</a></td>
+                <td>
+                    <a onclick="return confirm('Are you sure you wish to delete this student?')"
+                       th:href="@{'/eRegistrar/student/delete/' + ${student.studentId}}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <div class="ui white label">
+                <i class="disabled">
+                    <a href="#">Pages: </a>
+                </i>
+                <i th:each="i : ${#numbers.sequence(1, students.totalPages)}"
+                   th:class="${currentPageNo}==${i-1}?'active':''">
+                    <a th:href="@{/eRegistrar/student/list(pageno=${i-1})}"
+                       th:text="${i}"></a>
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="ui modal" id="confirmDelete">
+    <div class="header">
+        Are you sure you wish to delete this student?
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+            <i class="close icon"></i>
+        </div>
+        <div class="ui positive right labeled icon button">
+            Proceed
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+</body>
+</html>

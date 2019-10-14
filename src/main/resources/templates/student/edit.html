@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="author" content="Dios71">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/semantic-ui/semantic.css">
+    <script src="/semantic-ui/semantic.js"></script>
+    <title>eRegistrar - Edit Student Form</title>
+</head>
+<body>
+    <div class="ui large secondary pointing menu">
+        <a class="toc item">
+            <i class="sidebar icon"></i>
+        </a>
+        <a class="item" href="/eRegistrar/home">Home</a>
+        <a class="active item" href="/eRegistrar/student/list">Students</a>
+        <a class="item" href="/eRegistrar/student/search">Search</a>
+    </div>
+
+    <div style="padding-top:1em;" class="container">
+        <div style="margin-bottom: 1em;">
+            <span style="font-size: 2em; color: #32a5e7;">Search Student</span>
+        </div>
+
+        <form class="ui form" id="editStudentForm" method="post" action="/eRegistrar/student/edit" th:object="${student}">
+            <fieldset>
+                <input type="hidden" name="studentId" th:value="${student.studentId}"/>
+                <div class="field">
+                    <label for="studentNumber">Student Number</label>
+                    <span th:if="${#fields.hasErrors('studentNumber')}" th:errors="*{studentNumber}"
+                          class="ui red"></span>
+                    <input id="studentNumber" name="studentNumber" type="text" th:value="${student.studentNumber}">
+                </div>
+                <div class="field">
+                    <label for="firstName">First Name</label>
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                          class="ui red"></span>
+                    <input id="firstName" name="firstName" type="text" th:value="${student.firstName}">
+                </div>
+                <div class="field">
+                    <label for="middleName">Middle Name</label>
+                    <span th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"
+                          class="ui red"></span>
+                    <input id="middleName" name="middleName" type="text" th:value="${student.middleName}">
+                </div>
+                <div class="field">
+                    <label for="lastName">Last Name</label>
+                    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                          class="ui red"></span>
+                    <input id="lastName" name="lastName" type="text" th:value="${student.lastName}">
+                </div>
+                <div class="field">
+                    <label for="cgpa">CGPA</label>
+                    <span th:if="${#fields.hasErrors('cgpa')}" th:errors="*{cgpa}"
+                          class="ui red"></span>
+                    <input id="cgpa" name="cgpa" type="text"
+                           aria-describedby="cgpaHelp" placeholder="0.00"
+                           pattern="^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$"
+                           th:value="${student.cgpa}">
+                    <small id="cgpaHelp" class="form-text text-muted">Enter a valid decimal amount; no comma (e.g.
+                        1.99)</small>
+                </div>
+                <div class="field">
+                    <label for="enrollmentDate">Enrollment Date</label>
+                    <span th:if="${#fields.hasErrors('enrollmentDate')}" th:errors="*{enrollmentDate}"
+                          class="ui red"></span>
+                    <input id="enrollmentDate" name="enrollmentDate" type="date" th:value="${student.enrollmentDate}">
+                </div>
+                <div class="field">
+                    <label for="isInternational">Is International</label>
+                    <span th:if="${#fields.hasErrors('isInternational')}" th:errors="*{isInternational}"
+                          class="ui red"></span>
+                    <select class="ui selection dropdown" id="isInternational" name="isInternational"
+                            th:value="${student.isInternational}">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <script>
+                    $('#isInternational').dropdown();
+                </script>
+                <div class="ui fluid" style="float:right;">
+                    <a href="/eRegistrar/student/list" class="ui close button">Cancel</a>&nbsp;&nbsp;&nbsp;
+                    <button id="btnSubmit" type="submit" class="ui success button">Save Student</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+   </body>
+</html>
